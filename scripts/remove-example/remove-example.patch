@@ -858,10 +858,10 @@ index def9508..0000000
 -  ],
 -}
 diff --git a/src/components/site/BookingForm.tsx b/src/components/site/BookingForm.tsx
-index 2329ab1..c1c3d97 100644
+index 8033f44..c1c3d97 100644
 --- a/src/components/site/BookingForm.tsx
 +++ b/src/components/site/BookingForm.tsx
-@@ -27,7 +27,6 @@ import { Input } from '@/components/ui/input'
+@@ -27,11 +27,9 @@ import { Input } from '@/components/ui/input'
  import { Label } from '@/components/ui/label'
  import { Textarea } from '@/components/ui/textarea'
  import { MADE_UP_DATA_NOTICE } from '@/content/campus-cycle'
@@ -869,7 +869,11 @@ index 2329ab1..c1c3d97 100644
  import type { BookingField, BookingResult, BookingValues } from '@/tasks/book-slot/createBooking'
  import { saveBooking } from '@/tasks/book-slot/saveBooking'
  import { typedValues } from '@/tasks/book-slot/typedValues'
-@@ -38,8 +37,6 @@ type BookingFormProps = {
+-import { formatPrice } from '@/lib/format'
+ 
+ type BookingFormProps = {
+   // The clinic's slug: the server checks that the chosen time belongs to this clinic.
+@@ -39,8 +37,6 @@ type BookingFormProps = {
    slots: SlotChoice[]
    // A random code the clinic page makes for this one form (see requestId in src/collections/Bookings.ts).
    requestId: string
@@ -878,7 +882,7 @@ index 2329ab1..c1c3d97 100644
    // The member who is logged in, with the optional members' area on (src/lib/membersArea.ts): their
    // name ('' when their account has none) and their e-mail address, and nothing else. null when the
    // area is off or nobody is logged in, and then the form is the ordinary one.
-@@ -49,8 +46,8 @@ type BookingFormProps = {
+@@ -50,8 +46,8 @@ type BookingFormProps = {
  const EMPTY: BookingValues = { timeSlot: '', name: '', email: '', note: '' }
  
  // What the user sent last time, for every part inside the form. The fields below get it directly; a
@@ -889,7 +893,7 @@ index 2329ab1..c1c3d97 100644
  export const SentValues = createContext<BookingValues>(EMPTY)
  export function useSentValues(): BookingValues {
    return use(SentValues)
-@@ -75,36 +72,6 @@ async function sendBooking(previous: BookingResult | null, formData: FormData):
+@@ -76,36 +72,6 @@ async function sendBooking(previous: BookingResult | null, formData: FormData):
    }
  }
  
@@ -911,7 +915,7 @@ index 2329ab1..c1c3d97 100644
 -        // and add this line at the top of the file, under the other import lines:
 -        //   import { formatPrice } from '@/lib/format'
 -        // It reads each repair's own price, from the same record as the price list: nothing is copied.
--        const label = repair.name
+-        const label = repair.name + ', ' + formatPrice(repair.price)
 -        return (
 -          <label key={repair.id} className="flex min-h-11 items-center gap-3">
 -            <input type="checkbox" name="repairs" value={repair.id} defaultChecked={sent.repairs?.includes(String(repair.id))} className="size-5 accent-ink" />
@@ -926,7 +930,7 @@ index 2329ab1..c1c3d97 100644
  export function BookingForm(props: BookingFormProps) {
    const { clinic, slots, requestId, member } = props
    // state: null at first, then the answer of the last send (only failures come back: a saved booking
-@@ -186,8 +153,6 @@ export function BookingForm(props: BookingFormProps) {
+@@ -187,8 +153,6 @@ export function BookingForm(props: BookingFormProps) {
            {errors.note && <FieldError id="note-error">{errors.note}</FieldError>}
          </div>
  
