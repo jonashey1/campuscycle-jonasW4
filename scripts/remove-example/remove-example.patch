@@ -858,7 +858,7 @@ index def9508..0000000
 -  ],
 -}
 diff --git a/src/components/site/BookingForm.tsx b/src/components/site/BookingForm.tsx
-index 8033f44..c1c3d97 100644
+index cff89ff..c1c3d97 100644
 --- a/src/components/site/BookingForm.tsx
 +++ b/src/components/site/BookingForm.tsx
 @@ -27,11 +27,9 @@ import { Input } from '@/components/ui/input'
@@ -893,7 +893,7 @@ index 8033f44..c1c3d97 100644
  export const SentValues = createContext<BookingValues>(EMPTY)
  export function useSentValues(): BookingValues {
    return use(SentValues)
-@@ -76,36 +72,6 @@ async function sendBooking(previous: BookingResult | null, formData: FormData):
+@@ -76,32 +72,6 @@ async function sendBooking(previous: BookingResult | null, formData: FormData):
    }
  }
  
@@ -910,11 +910,7 @@ index 8033f44..c1c3d97 100644
 -        Repairs <span className="font-normal text-ink-soft">(optional)</span>
 -      </legend>
 -      {repairs.map((repair) => {
--        // To show each repair's price too, replace the line under this comment with this line:
--        //   const label = repair.name + ', ' + formatPrice(repair.price)
--        // and add this line at the top of the file, under the other import lines:
--        //   import { formatPrice } from '@/lib/format'
--        // It reads each repair's own price, from the same record as the price list: nothing is copied.
+-        // Each repair's own price, from the same record as the price list: nothing is copied.
 -        const label = repair.name + ', ' + formatPrice(repair.price)
 -        return (
 -          <label key={repair.id} className="flex min-h-11 items-center gap-3">
@@ -930,7 +926,7 @@ index 8033f44..c1c3d97 100644
  export function BookingForm(props: BookingFormProps) {
    const { clinic, slots, requestId, member } = props
    // state: null at first, then the answer of the last send (only failures come back: a saved booking
-@@ -187,8 +153,6 @@ export function BookingForm(props: BookingFormProps) {
+@@ -183,8 +153,6 @@ export function BookingForm(props: BookingFormProps) {
            {errors.note && <FieldError id="note-error">{errors.note}</FieldError>}
          </div>
  
